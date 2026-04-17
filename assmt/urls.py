@@ -13,6 +13,7 @@ urlpatterns = [
     path('', include('posts.urls')),
     path('users/', include('users.urls')),
     path('interactions/', include('interactions.urls')),
+    path('accounts/', include('allauth.urls')),
     path('favicon.ico', RedirectView.as_view(url='/static/images/logo.png', permanent=True)),
 ]
 

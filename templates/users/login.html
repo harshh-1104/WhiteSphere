@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Log in — WriteSphere{% endblock %}
+
+{% block main_content %}
+<div class="min-h-screen flex items-center justify-center bg-white dark:bg-black px-4 py-8">
+    <div class="w-full max-w-[440px]">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <img src="{% static 'images/logo.png' %}" alt="WriteSphere Logo" class="w-10 h-10 mx-auto rounded-full object-cover">
+        </div>
+
+        <h1 class="text-[31px] font-extrabold text-[#0F1419] dark:text-[#E7E9EA] mb-8 leading-tight">Sign in to WriteSphere</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-5">
+                <label for="id_username" class="block text-[15px] font-medium text-[#536471] dark:text-[#71767B] mb-2">Username</label>
+                <input type="text" name="username" id="id_username" autofocus required
+                    class="w-full px-4 py-3.5 rounded-[4px] border border-[#CFD9DE] dark:border-[#333639] bg-transparent text-[17px] text-[#0F1419] dark:text-[#E7E9EA] focus:border-xblue focus:ring-1 focus:ring-xblue outline-none transition-all placeholder-[#536471]"
+                    placeholder="Enter your username">
+            </div>
+
+            <div class="mb-6 relative">
+                <label for="id_password" class="block text-[15px] font-medium text-[#536471] dark:text-[#71767B] mb-2">Password</label>
+                <div class="relative">
+                    <input type="password" name="password" id="id_password" required
+                        class="w-full px-4 py-3.5 pr-12 rounded-[4px] border border-[#CFD9DE] dark:border-[#333639] bg-transparent text-[17px] text-[#0F1419] dark:text-[#E7E9EA] focus:border-xblue focus:ring-1 focus:ring-xblue outline-none transition-all placeholder-[#536471]"
+                        placeholder="Enter your password">
+                    <button type="button" onclick="togglePasswordVisibility()" class="absolute inset-y-0 right-0 flex items-center px-4 text-[#536471] dark:text-[#71767B] hover:text-[#0F1419] dark:hover:text-[#E7E9EA] transition-colors bg-transparent border-none cursor-pointer">
+                        <svg id="eyeIcon" viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {% if form.errors %}
+            <div class="px-4 py-3 rounded-lg bg-[#F4212E]/10 border border-[#F4212E]/30 text-[#F4212E] text-[15px] mb-5">
+                Invalid username or password. Please try again.
+            </div>
+            {% endif %}
+
+            <button type="submit" class="w-full py-3.5 rounded-full bg-[#0F1419] dark:bg-[#EFF3F4] text-white dark:text-[#0F1419] text-[17px] font-bold border-none cursor-pointer hover:opacity-90 transition-opacity">
+                Log in
+            </button>
+        </form>
+
+        <p class="mt-10 text-center text-[15px] text-[#536471] dark:text-[#71767B]">
+            Don't have an account? <a href="{% url 'users:register' %}" class="text-xblue no-underline hover:underline">Sign up</a>
+        </p>
+
+        <!-- Theme toggle for auth pages -->
+        <div class="text-center mt-6">
+            <button onclick="toggleTheme()" id="themeToggle" class="text-[#536471] dark:text-[#71767B] bg-transparent border-none cursor-pointer text-sm hover:text-[#0F1419] dark:hover:text-[#E7E9EA] transition-colors font-sans">
+                <svg id="themeIcon" viewBox="0 0 24 24" class="w-5 h-5 inline-block mr-1 -mt-0.5" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                Toggle theme
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePasswordVisibility() {
+        const input = document.getElementById('id_password');
+        const icon = document.getElementById('eyeIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+        } else {
+            input.type = 'password';
+            icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+        }
+    }
+</script>
+{% endblock %}
